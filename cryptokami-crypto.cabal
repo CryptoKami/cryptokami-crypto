@@ -1,0 +1,54 @@
+name:                cryptokami-crypto
+version:             1.0.0
+synopsis:            Cryptography primitives for cryptokami
+description:
+homepage:            https://github.com/CryptoKami/cryptokami-crypto#readme
+license:             MIT
+license-file:        LICENSE
+author:              Vincent Hanquez
+maintainer:          contact@typed.io
+copyright:           2016-2017 IOHK
+category:            Crypto
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Cryptokami.Crypto.Wallet
+                       Cryptokami.Crypto.Wallet.Encrypted
+                       Cryptokami.Crypto.Wallet.Types
+                       Cryptokami.Crypto.Wallet.Pure
+                       Crypto.Math.Edwards25519
+                       Crypto.ECC.Ed25519Donna
+  build-depends:       base >= 4.7 && < 5
+                     , memory
+                     , deepseq
+                     , bytestring
+                     , cryptonite >= 0.22
+                     , cryptonite-openssl >= 0.5
+                     , hashable
+  default-language:    Haskell2010
+  C-sources:           cbits/ed25519/ed25519.c
+                       cbits/encrypted_sign.c
+  include-dirs:        cbits/ed25519 cbits
+  default-extensions:  GeneralizedNewtypeDeriving
+  ghc-options:         -Wall
+
+test-suite cryptokami-crypto-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       base
+                     , bytestring
+                     , memory
+                     , cryptonite
+                     , cryptokami-crypto
+                     , tasty
+                     , tasty-quickcheck
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+source-repository head
+  type:     git
+  location: https://github.com/CryptoKami/cryptokami-crypto
